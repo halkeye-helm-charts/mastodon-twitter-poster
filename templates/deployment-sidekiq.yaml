@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mastodon-twitter-poster.fullname" . }}
+  name: {{ include "mastodon-twitter-poster.fullname" . }}-sidekiq
   labels:
 {{ include "mastodon-twitter-poster.labels" . | indent 4 }}
 spec:
@@ -26,26 +26,35 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-sidekiq
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["bundle","exec","sidekiq","-c","5","-q","default"]
+          ports:
+            - containerPort: 7433
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 7433
+            initialDelaySeconds: 80 # app specific. Time your sidekiq takes to start processing.
+            timeoutSeconds: 5 # can be much less
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 7433
+            initialDelaySeconds: 80 # app specific
+            timeoutSeconds: 5 # can be much less
+          terminationGracePeriodSeconds: 30 # put your longest Job time here plus security time.
+          lifecycle:
+            preStop:
+              exec:
+                # SIGTERM triggers a quick exit; gracefully terminate instead
+                command: ["bundle", "exec", "sidekiqctl", "quiet"]
           envFrom:
             - secretRef:
                 name: {{ include "mastodon-twitter-poster.fullname" . }}
-          ports:
-            - name: http
-              containerPort: 3000
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health_check
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /health_check
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -60,3 +69,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+
