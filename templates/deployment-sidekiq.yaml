@@ -18,6 +18,7 @@ spec:
         app.kubernetes.io/name: {{ include "mastodon-twitter-poster.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      terminationGracePeriodSeconds: 30 # put your longest Job time here plus security time.
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -46,7 +47,6 @@ spec:
               port: 7433
             initialDelaySeconds: 80 # app specific
             timeoutSeconds: 5 # can be much less
-          terminationGracePeriodSeconds: 30 # put your longest Job time here plus security time.
           lifecycle:
             preStop:
               exec:
