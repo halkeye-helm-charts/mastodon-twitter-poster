@@ -2,14 +2,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "mastodon-twitter-poster.fullname" . }}-sidekiq
+  {{- if .Values.deploymentAnnotations }}
+  annotations:
+    {{- range $key, $value := .Values.deploymentAnnotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
   labels:
 {{ include "mastodon-twitter-poster.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+{{- if .Values.strategy }}
+  strategy:
+{{ toYaml .Values.strategy | indent 4 }}
+{{ if eq .Values.strategy.type "Recreate" }}
+    rollingUpdate: null
+{{- end }}
+{{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "mastodon-twitter-poster.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "mastodon-twitter-poster.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -26,6 +38,10 @@ spec:
       serviceAccountName: {{ template "mastodon-twitter-poster.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig:
+        {{- toYaml .Values.dnsConfig | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-sidekiq
           securityContext:
@@ -69,4 +85,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-

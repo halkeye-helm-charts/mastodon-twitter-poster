@@ -45,6 +45,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
+Selector labels
+*/}}
+{{- define "mastodon-twitter-poster.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "mastodon-twitter-poster.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "mastodon-twitter-poster.serviceAccountName" -}}
