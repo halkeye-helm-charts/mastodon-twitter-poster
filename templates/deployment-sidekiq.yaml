@@ -46,7 +46,7 @@ spec:
         - name: {{ .Chart.Name }}-sidekiq
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag .}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["bundle","exec","sidekiq","-c","5","-q","default"]
           ports:

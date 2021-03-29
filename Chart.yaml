@@ -1,6 +1,6 @@
 apiVersion: v2
 appVersion: "latest"
-version: 0.2.2
+version: 0.2.3
 description: Mastodon Twitter Crossposter
 name: mastodon-twitter-poster
 keywords:
@@ -16,6 +16,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - "use my 'latest' image so it can healthcheck sidekiq"
+    - fix pulling image from the Chart.yaml appVersion
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/images: |
     - name: mastodon-twitter-poster
