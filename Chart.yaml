@@ -1,6 +1,6 @@
 apiVersion: v2
 appVersion: "latest"
-version: 0.2.1
+version: 0.2.2
 description: Mastodon Twitter Crossposter
 name: mastodon-twitter-poster
 keywords:
@@ -15,7 +15,7 @@ maintainers:
     email: helm@gavinmogan.com
 annotations:
   artifacthub.io/changes: |
-    - Update to latest base templates and helm chart v2
+    - "use my 'latest' image so it can healthcheck sidekiq"
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/images: |
     - name: mastodon-twitter-poster

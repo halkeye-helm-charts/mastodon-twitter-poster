@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: halkeye/mastodon-twitter-poster
-  tag: 8c339ed
+  tag: "{{ .Chart.AppVersion }}"
   pullPolicy: Always
 
 imagePullSecrets: []
