@@ -1,23 +1,26 @@
 apiVersion: v2
-appVersion: "latest"
-version: 0.2.3
+appVersion: "208a73"
+version: 0.2.5
 description: Mastodon Twitter Crossposter
 name: mastodon-twitter-poster
 keywords:
   - twitter
   - mastodon
-home: https://github.com/renatolond/mastodon-twitter-poster
+home: https://github.com/halkeye/mastodon-twitter-poster
 sources:
-  - https://github.com/renatolond/mastodon-twitter-poster
+  - https://github.com/halkeye/mastodon-twitter-poster
   - https://hub.docker.com/r/halkeye/mastodon-twitter-poster
 maintainers:
   - name: Gavin Mogan
     email: helm@gavinmogan.com
 annotations:
   artifacthub.io/changes: |
-    - "use my 'latest' image so it can healthcheck sidekiq"
-    - fix pulling image from the Chart.yaml appVersion
+    - Cleanup and upgraded to latest templates
+    - officially use my fork of the code everwhere that has updated rails and healthcheck
+    - statsd-exporter if prometheus is wanted
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/images: |
     - name: mastodon-twitter-poster
-      image: halkeye/mastodon-twitter-poster:latest
+      image: halkeye/mastodon-twitter-poster:208a73
+    - name: statsd-exporter
+      image: prom/statsd-exporter:v0.20.1

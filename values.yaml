@@ -7,7 +7,14 @@ replicaCount: 1
 image:
   repository: halkeye/mastodon-twitter-poster
   tag: "{{ .Chart.AppVersion }}"
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
+
+statsd_exporter:
+  enabled: false
+  image:
+    repository: prom/statsd-exporter
+    tag: "v0.20.1"
+    pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
