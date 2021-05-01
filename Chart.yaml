@@ -1,6 +1,6 @@
 apiVersion: v2
-appVersion: "208a73"
-version: 0.2.5
+appVersion: "3e6770"
+version: 0.2.6
 description: Mastodon Twitter Crossposter
 name: mastodon-twitter-poster
 keywords:
@@ -21,6 +21,6 @@ annotations:
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/images: |
     - name: mastodon-twitter-poster
-      image: halkeye/mastodon-twitter-poster:208a73
+      image: halkeye/mastodon-twitter-poster:3e6770
     - name: statsd-exporter
       image: prom/statsd-exporter:v0.20.1
