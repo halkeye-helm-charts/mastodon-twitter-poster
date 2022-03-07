@@ -1,6 +1,6 @@
 apiVersion: v2
 appVersion: "3e6770"
-version: 0.2.6
+version: 0.2.7
 description: Mastodon Twitter Crossposter
 name: mastodon-twitter-poster
 keywords:
@@ -15,9 +15,7 @@ maintainers:
     email: helm@gavinmogan.com
 annotations:
   artifacthub.io/changes: |
-    - Cleanup and upgraded to latest templates
-    - officially use my fork of the code everwhere that has updated rails and healthcheck
-    - statsd-exporter if prometheus is wanted
+    - Allow providing of DATABASE_URI
   artifacthub.io/containsSecurityUpdates: "false"
   artifacthub.io/images: |
     - name: mastodon-twitter-poster

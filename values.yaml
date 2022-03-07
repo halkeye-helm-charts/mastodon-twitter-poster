@@ -127,6 +127,8 @@ config:
     token:
 
   database:
+    # can provide a uri instead as provided by digitalocean or heroku
+    uri: ''
     host:
     name: mastodon_twitter_poster_production
     user: mastodon_twitter_poster
